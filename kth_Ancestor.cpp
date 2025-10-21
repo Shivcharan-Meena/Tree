@@ -1,5 +1,6 @@
 #include<iostream>
-#include<bits/stdc++.h>
+#include<map>
+#include<vector>
 using namespace std;
 
 class Node{
@@ -32,50 +33,69 @@ Node*build(Node*root){
     return root;
 }
 
-Node* kth_ancestor(Node*root,int &k,int node){
-    if(root==NULL){
-        return NULL;
+//searchig a node k and storing its path;
+//with this function we can solve our problem but with cost of O(N) space complexeity
+bool search(Node* root, int k, vector<int>& v) {
+    if (root == NULL) return false;
+
+    v.push_back(root->data);
+
+    if (root->data == k) return true; // node found
+
+    // search left or right; stop if found
+    if (search(root->left, k, v) || search(root->right, k, v)) {
+        return true;
     }
-    
-    if(root->data==node){
-        return root;
-    }
-    
-    Node*lft=kth_ancestor(root->left,k,node);
-    Node*rght=kth_ancestor(root->right,k,node);
-    
-    if(lft!=NULL){
-        k--;
-        if(k<=0){
-            k=INT_MAX;
-            // taki ye upper root tak keval ancestor ko hi bhejta rahe
-            return root;
-        }
-        else return lft;
-    }
-    
-    if(rght!=NULL){
-           k--;
-        if(k<=0){
-            k=INT_MAX;
-            return root;
-        }
-        else return rght;
-    }
-    
-    return NULL;
+
+    // node not found in either subtree, backtrack
+    v.pop_back();
+    return false;
 }
+
+Node* search_kth_ancestor(Node* root, int node, int &k) {
+    if (!root) return NULL;
+
+    if (root->data == node) return root;
+
+    Node* left = search_kth_ancestor(root->left, node, k);
+    if (left != NULL) {
+        k--;                    // decrement at parent
+        if (k == 0) return root; // current node is kth ancestor
+        return left;             // propagate node up
+    }
+
+    Node* right = search_kth_ancestor(root->right, node, k);
+    if (right != NULL) {
+        k--;                    // decrement at parent
+        if (k == 0) return root; // current node is kth ancestor
+        return right;            // propagate node up
+    }
+
+    return NULL; // node not found in either subtree
+}
+
+
 
 
 int main(){
     Node*root=NULL;
-     // 1 2 4 -1 -1 3 -1 -1 5 6 -1 -1 -1 Balanced Tree
-     // 1 2 3 4 -1 -1 -1 -1 -1 UnBalanced Tree
-     
     root=build(root);
-    int k=1;
-    int node=4;
-     cout<<k<<"th ancestor of "<<node<<" is "<<kth_ancestor(root,k,node)->data<<endl;
-     return 0;
- 
+    
+    //  1 3 8 -1 2 5 -1 4 -1 -1 -1 -1 -1 -1
+
+    //  vector<int>v;
+    //  int k=2;
+    //  if(search(root,k,v)){
+    //      for(int i=0;i<v.size();i++){
+    //     cout<<v[i]<<" ";
+    //  }
+    //  }
+    //  else cout<<"akad bakad bombay bo"<<endl;
+
+     //searching kth ancestor
+     int m=2;
+     int node=5;
+     cout<<m<<"th ancestor of "<<node<<" is "<<search_kth_ancestor(root,m,node)->data<<endl;
+    
+
 }

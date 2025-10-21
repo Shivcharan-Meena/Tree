@@ -55,7 +55,7 @@ bool Balaced(Node*root){
 pair<bool,int> Balanced_Fast(Node*root){
 
         if(root==NULL){
-            return make_pair(1,0);
+            return make_pair(1,0); //wether balaced or not ,height;
         }
 
         pair<bool,int> left=Balanced_Fast(root->left);

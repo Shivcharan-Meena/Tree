@@ -61,9 +61,9 @@ pair<int,int> Diameter_fast(Node*root){
         pair<int,int> left=Diameter_fast(root->left);
         pair<int,int>right=Diameter_fast(root->right);
 
-        int op1=left.first;
-        int op2=right.first;
-        int op3=left.second+right.second+1;
+        int op1=left.first;//diameter of left subtree
+        int op2=right.first;//diameter of right subtree
+        int op3=left.second+right.second+1;//height of left subtree+ height of right subtree+1
         pair<int,int>ans;
         ans.first=max(op1,max(op2,op3));
         ans.second=max(left.first,right.first)+1;
