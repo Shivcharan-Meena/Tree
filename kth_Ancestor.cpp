@@ -52,26 +52,38 @@ bool search(Node* root, int k, vector<int>& v) {
     return false;
 }
 
-Node* search_kth_ancestor(Node* root, int node, int &k) {
-    if (!root) return NULL;
-
-    if (root->data == node) return root;
-
-    Node* left = search_kth_ancestor(root->left, node, k);
-    if (left != NULL) {
-        k--;                    // decrement at parent
-        if (k == 0) return root; // current node is kth ancestor
-        return left;             // propagate node up
+Node* kth_ancestor(Node*root,int &k,int node){
+    if(root==NULL){
+        return NULL;
     }
-
-    Node* right = search_kth_ancestor(root->right, node, k);
-    if (right != NULL) {
-        k--;                    // decrement at parent
-        if (k == 0) return root; // current node is kth ancestor
-        return right;            // propagate node up
+    
+    if(root->data==node){
+        return root;
     }
-
-    return NULL; // node not found in either subtree
+    
+    Node*lft=kth_ancestor(root->left,k,node);
+    Node*rght=kth_ancestor(root->right,k,node);
+    
+    if(lft!=NULL){
+        k--;
+        if(k<=0){
+            k=INT_MAX;
+            // taki ye upper root tak keval ancestor ko hi bhejta rahe
+            return root;
+        }
+        else return lft;
+    }
+    
+    if(rght!=NULL){
+           k--;
+        if(k<=0){
+            k=INT_MAX;
+            return root;
+        }
+        else return rght;
+    }
+    
+    return NULL;
 }
 
 
