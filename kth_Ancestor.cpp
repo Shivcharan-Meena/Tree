@@ -52,38 +52,54 @@ bool search(Node* root, int k, vector<int>& v) {
     return false;
 }
 
-Node* kth_ancestor(Node*root,int &k,int node){
-    if(root==NULL){
+Node* solve(Node* root, int &k, int node) {
+    //base case
+    if(root == NULL)
         return NULL;
-    }
-    
-    if(root->data==node){
+        
+    if(root->data == node) 
+    {
         return root;
     }
     
-    Node*lft=kth_ancestor(root->left,k,node);
-    Node*rght=kth_ancestor(root->right,k,node);
-    
-    if(lft!=NULL){
+    Node* leftAns = solve(root->left, k, node);
+    Node* rightAns = solve(root->right, k, node);
+
+
+    //wapas
+    if(leftAns != NULL && rightAns == NULL) 
+    {
         k--;
-        if(k<=0){
-            k=INT_MAX;
-            // taki ye upper root tak keval ancestor ko hi bhejta rahe
+        if(k<=0) 
+        {
+            //answer lock
+            k = INT_MAX;
             return root;
         }
-        else return lft;
+        return leftAns;
     }
     
-    if(rght!=NULL){
-           k--;
-        if(k<=0){
-            k=INT_MAX;
+    if(leftAns == NULL && rightAns != NULL) {
+        k--;
+        if(k<=0) 
+        {
+            //answer lock
+            k = INT_MAX;
             return root;
         }
-        else return rght;
+        return rightAns;
     }
-    
     return NULL;
+    
+
+}
+int kthAncestor(Node *root, int k, int node)
+{
+    Node* ans = solve(root, k, node);
+    if(ans == NULL || ans->data == node)
+        return -1;
+    else
+        return ans->data;
 }
 
 
@@ -107,7 +123,7 @@ int main(){
      //searching kth ancestor
      int m=2;
      int node=5;
-     cout<<m<<"th ancestor of "<<node<<" is "<<search_kth_ancestor(root,m,node)->data<<endl;
+     cout<<kthAncestor(root,m,node)<<endl;
     
 
 }
