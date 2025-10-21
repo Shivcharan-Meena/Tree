@@ -42,7 +42,7 @@ pair<int,int> solve(Node* root) {
             pair<int,int> p = make_pair(0,0);
             return p;
         }
-        
+        //pair me phla sum h inculding current node and second sum h excluding current node
         pair<int,int> left = solve(root->left);
         pair<int,int> right = solve(root->right);
         
