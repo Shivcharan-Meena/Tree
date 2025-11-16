@@ -51,7 +51,7 @@ bool Balaced(Node*root){
     return left &&right&& through_root;
 }
 
-//calculating diameter of Tree with Time Complexity O(N)
+// with Time Complexity O(N)
 pair<bool,int> Balanced_Fast(Node*root){
 
         if(root==NULL){
