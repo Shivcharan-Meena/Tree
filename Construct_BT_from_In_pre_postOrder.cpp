@@ -35,7 +35,7 @@ Node*InOrder_PreOrder( vector<int> &pre,  vector<int> &in,int &pre_index,int inS
         return NULL;
     }
     int ele=pre[pre_index++];
-    int position=findPos(in,ele,n); //this will take O(n) extra time so total time complexeity is O(n)
+    int position=findPos(in,ele,n); //  this will take O(n) extra time so total time complexeity is O(n)
     Node*root=new Node(ele);
 
     root->left=InOrder_PreOrder(pre,in,pre_index,inStartIndex,position-1,n);
@@ -50,7 +50,7 @@ Node*Post_InOrder(vector<int> &post,  vector<int> &in,int &post_index,int inStar
         return NULL;
     }
     int ele=post[post_index--];
-    int position=m[ele]; //this will take O(n) extra time so total time complexeity is O(n)
+    int position=m[ele]; //its worst case time complexity time complexeity is O(log(n)) instead use unorderd_map then total time complexity will be O(n);
     Node*root=new Node(ele);
 
     root->right=Post_InOrder(post,in,post_index,position+1,inEndIndex,n,m);
@@ -96,4 +96,5 @@ int main(){
     // Node*root=InOrder_PreOrder(pre,in,k,0,n-1,n);
    Node*root= Post_InOrder(post,in,k,0,n-1,n,m);
     BFS(root);
+
 }
